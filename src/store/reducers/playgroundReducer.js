@@ -1,19 +1,15 @@
-const initialState = { name: 'Playground' };
+const initialState = {
+  gussedLetters: [],
+};
 
 const playgroundReducer = (state = initialState, action) => {
   state = state || initialState;
 
   switch (action.type) {
-    case 'PLAY_REQUEST':
+    case 'GUESS_LETTER':
       return {
         ...state,
-        loading: true,
-      };
-    case 'PLAY_RESPONSE_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-        response: 'Hello',
+        gussedLetters: [...state.gussedLetters, action.currentGuess],
       };
     default:
       return state;

@@ -1,0 +1,20 @@
+.game-console {
+  display: grid;
+  grid-template-columns: repeat(13, 40px);
+  grid-gap: 8px;
+  text-align: center;
+  align-items: center;
+}
+.character {
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  text-shadow: 1px 1px #2980b9;
+}
+
+.character:disabled {
+  cursor: not-allowed;
+  text-decoration-line: line-through;
+  color: gray;
+  text-shadow: none;
+}
