@@ -1,19 +1,19 @@
 import React from 'react';
+import './playground.css';
 import { connect } from 'react-redux';
 
 const Playground = (props) => {
   return (
-    <div>
-      Playground
-      <button onClick={props.onTest}>Test Saga</button>
+    <div className="playground">
+      <div>Trap</div>
+      <div>Word</div>
+      <div>
+        <div>Timer</div>
+        <div>Console</div>
+        <div>New</div>
+      </div>
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onTest: () => dispatch({ type: 'PLAY_REQUEST' }),
-  };
-};
-
-export default connect(null, mapDispatchToProps)(React.memo(Playground));
+export default connect(null, null)(React.memo(Playground));

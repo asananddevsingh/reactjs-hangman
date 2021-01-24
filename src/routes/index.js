@@ -12,8 +12,14 @@ const Routes = () => {
             key={route.key}
             exact={route.exact}
             render={(routeProps) => (
-              <Suspense fallback={() => 'Loading...'}>
-                <route.component {...routeProps} />
+              <Suspense fallback={'Loading...'}>
+                {route.layout ? (
+                  <route.layout>
+                    <route.component {...routeProps} />
+                  </route.layout>
+                ) : (
+                  <route.component {...routeProps} />
+                )}
               </Suspense>
             )}
           />
