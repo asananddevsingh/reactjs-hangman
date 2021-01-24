@@ -1,8 +1,8 @@
 import { all } from 'redux-saga/effects';
-import playgroundSagas from './playgroundSagas';
+import historySagas from './historySagas';
 
 function* rootSaga() {
-  yield all([playgroundSagas()]);
+  yield all([historySagas()]);
 }
 
 export default rootSaga;

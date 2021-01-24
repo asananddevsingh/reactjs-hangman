@@ -10,9 +10,17 @@ import {
   Result,
 } from '../../components';
 import { RESULTS } from '../../components/result/result';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 const Playground = (props) => {
-  const { words, handleGuess, gussedLetters, handleRestart } = props;
+  const {
+    words,
+    handleGuess,
+    gussedLetters,
+    handleRestart,
+    hangleSaveGame,
+  } = props;
 
   const getSelectedWord = () => {
     return words[Math.floor(Math.random() * words.length)]?.toUpperCase();
@@ -25,23 +33,25 @@ const Playground = (props) => {
   const [shouldStopTimer, setShouldStopTimer] = useState(false);
 
   useEffect(() => {
-    const lastGuess = gussedLetters[gussedLetters.length - 1];
-    const isGuessMatched = word?.includes(lastGuess);
-    if (isGuessMatched) {
-      const rightAttempts = rightGuesses + 1;
-      // Compair with the unique letters only.
-      if (rightAttempts === [...new Set(word)]?.length) {
-        setResult(RESULTS.WINNER.KEY);
-        setShouldStopTimer(true);
+    if (gussedLetters.length) {
+      const lastGuess = gussedLetters[gussedLetters.length - 1];
+      const isGuessMatched = word?.includes(lastGuess);
+      if (isGuessMatched) {
+        const rightAttempts = rightGuesses + 1;
+        // Compair with the unique letters only.
+        if (rightAttempts === [...new Set(word)]?.length) {
+          setResult(RESULTS.WINNER.KEY);
+          setShouldStopTimer(true);
+        }
+        setRightGuesses(rightAttempts);
+      } else {
+        const wrongAttempts = wrongGuesses + 1;
+        if (wrongAttempts === 6) {
+          setResult(RESULTS.LOSER.KEY);
+          setShouldStopTimer(true);
+        }
+        setWrongGuesses(wrongAttempts);
       }
-      setRightGuesses(rightAttempts);
-    } else {
-      const wrongAttempts = wrongGuesses + 1;
-      if (wrongAttempts === 6) {
-        setResult(RESULTS.LOSER.KEY);
-        setShouldStopTimer(true);
-      }
-      setWrongGuesses(wrongAttempts);
     }
   }, [gussedLetters?.length]);
 
@@ -65,6 +75,20 @@ const Playground = (props) => {
     setWrongGuesses(wrongAttempts);
   };
 
+  const generateGameDetails = () => {
+    const data = {
+      date: moment().format('DD/MM/YYYY'),
+      error: wrongGuesses,
+      won: !!result,
+    };
+    hangleSaveGame(data);
+  };
+
+  // Restart everything on unmount. (Like returning back from history page.)
+  useEffect(() => {
+    return restartGame;
+  }, []);
+
   return (
     <div className="playground">
       <Trap missed={wrongGuesses} />
@@ -82,6 +106,10 @@ const Playground = (props) => {
       ) : (
         <GameConsole onGuess={handleGuess} gussedLetters={gussedLetters} />
       )}
+      <div className="historyLink">
+        <button onClick={generateGameDetails}> Save Game</button>
+        <Link to="/history">See History</Link>
+      </div>
     </div>
   );
 };
@@ -98,6 +126,8 @@ const mapDispatchToProps = (dispatch) => {
     handleGuess: (currentGuess) =>
       dispatch({ type: 'GUESS_LETTER', currentGuess }),
     handleRestart: () => dispatch({ type: 'RESTART' }),
+    hangleSaveGame: (gameDetails) =>
+      dispatch({ type: 'SAVE_GAME', gameDetails }),
   };
 };
 
