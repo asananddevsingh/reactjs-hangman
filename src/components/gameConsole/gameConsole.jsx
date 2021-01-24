@@ -1,19 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './gameConsole.css';
 import { KEYS } from './gameConsoleConstants';
-import { connect } from 'react-redux';
 
 const GameConsole = (props) => {
   const { onGuess, gussedLetters } = props;
 
   const handleClick = (event) => {
-    console.log(event?.target?.innerText);
     onGuess(event?.target?.innerText);
   };
-
-  useEffect(() => {
-    console.log('gussedLetters :>> ', gussedLetters);
-  }, [gussedLetters]);
 
   return (
     <div className="game-console">

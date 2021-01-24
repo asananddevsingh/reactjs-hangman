@@ -1,6 +1,7 @@
 .word {
   display: flex;
   text-transform: uppercase;
+  margin: 0 20px;
 }
 
 .letter {

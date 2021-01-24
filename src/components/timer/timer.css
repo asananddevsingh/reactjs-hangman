@@ -1,0 +1,11 @@
+.timer {
+  font-size: 24px;
+  font-weight: 700;
+  border-radius: 50%;
+  border: 4px dashed;
+  height: 80px;
+  width: 80px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}

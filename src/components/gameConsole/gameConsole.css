@@ -18,3 +18,21 @@
   color: gray;
   text-shadow: none;
 }
+
+@media screen and (max-width: 768px) {
+  .game-console {
+    grid-template-columns: repeat(8, 40px);
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .game-console {
+    grid-template-columns: repeat(6, 40px);
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .game-console {
+    grid-template-columns: repeat(4, 40px);
+  }
+}
